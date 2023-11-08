@@ -1,0 +1,18 @@
+version: '3'
+services:
+  python-app:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: weatheran
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      APY_KEY:
+    ports:
+      - "5555:5432"

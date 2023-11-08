@@ -4,14 +4,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-connection = psycopg2.connect(
-    database=os.getenv("DB_NAME"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host=os.getenv("DB_HOST"),
-    port=os.getenv("DB_PORT")
-)
-
+def connectToDb():
+    return psycopg2.connect(
+        database=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT")
+    )
 
 def insertValues(
         city,
@@ -23,6 +23,7 @@ def insertValues(
         temperture,
 
 ):
+    connection = connectToDb()
     cursor = connection.cursor()
     cursor.execute(f"""
         insert into city_weather(city, humidity,feelsLike,temperature,wind,dateLocal,timeLocal)
@@ -30,5 +31,4 @@ def insertValues(
     """)
     connection.commit()
     cursor.close()
-    connection.close()
 
